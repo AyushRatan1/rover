@@ -180,6 +180,55 @@ window.onload = function() {
         // Update other properties similarly...
     }
 
+    
+
     // Update all charts and data every second
     setInterval(updateCharts, 1000);
+    // Define canvas and context for map view
+    const mapCanvas = document.getElementById("mapCanvas");
+    const mapCtx = mapCanvas.getContext("2d");
+
+    // Define grid properties
+    const gridSize = 30; // Size of each grid cell
+    const numRows = 10; // Number of rows in the grid
+    const numCols = 10; // Number of columns in the grid
+
+    // Initial position of the rover
+    let roverPosition = { row: 5, col: 5 };
+
+    // Function to update the map view
+    function updateMapView() {
+        // Clear previous drawings
+        mapCtx.clearRect(0, 0, mapCanvas.width, mapCanvas.height);
+
+        // Draw grid lines
+        for (let row = 0; row < numRows; row++) {
+            for (let col = 0; col < numCols; col++) {
+                mapCtx.beginPath();
+                mapCtx.rect(col * gridSize, row * gridSize, gridSize, gridSize);
+                mapCtx.stroke();
+            }
+        }
+
+        // Draw rover at its current position
+        mapCtx.fillStyle = "red";
+        mapCtx.beginPath();
+        mapCtx.arc(roverPosition.col * gridSize + gridSize / 2, roverPosition.row * gridSize + gridSize / 2, gridSize / 2, 0, Math.PI * 2);
+        mapCtx.fill();
+    }
+
+    // Update map view initially
+    updateMapView();
+
+    // Function to update the rover's position (sample logic)
+    function updateRoverPosition() {
+        // Update rover's position (sample logic)
+        roverPosition.row = Math.floor(Math.random() * numRows);
+        roverPosition.col = Math.floor(Math.random() * numCols);
+        // Update map view
+        updateMapView();
+    }
+
+    // Update rover's position every 1 second (sample interval)
+    setInterval(updateRoverPosition, 1000);
 };
